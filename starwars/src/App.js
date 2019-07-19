@@ -5,6 +5,7 @@ import BirthYear from "./components/BirthYear"
 import Species from "./components/Species"
 import Character from "./components/Character"
 import 'semantic-ui-css/semantic.min.css'
+import { Card } from 'semantic-ui-react'
 
 import './App.css';
 
@@ -26,7 +27,7 @@ const App = () => {
       .get(`https://swapi.co/api/people/`)
       .then(response => {
         const starwar = response.data.results;
-        // starwar.map()
+        
         console.log("starwar:", starwar);
       
         setInfo(starwar);
@@ -39,10 +40,26 @@ const App = () => {
 
   return (
     <div className="App">
-      <h1 className="Header">React Wars</h1>
-      {info.map(item =>  <Name name={name} />)}
-      <BirthYear birthYear={birthYear} />
-        
+      <h1 className="Header">Starwar Character</h1>
+      <Card.Group>
+      {
+        info.map((item) => {
+          return (
+            <Card>
+              <Card.Content>
+              <Card.Header>
+                <Name name={item.name} />
+              </Card.Header>
+              <Card.Meta>
+                <BirthYear birthYear={item.birth_year}/>
+              </Card.Meta>
+              </Card.Content>
+            
+            </Card>
+          )
+        })
+      } 
+    </Card.Group>
     </div>
   );
 }
