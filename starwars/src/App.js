@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Name from "./components/Name"
 
 import './App.css';
 
@@ -12,14 +13,17 @@ const App = () => {
   // sync up with, if any.
 
   const [info, setInfo] = useState([]);
+  const [name, setName] = useState('')
   useEffect(() => {
     axios
       .get(`https://swapi.co/api/people/?search=r2`)
       .then(response => {
-        const starwar = response.data.results;
+        const starwar = response.data;
+
         console.log("starwar:", starwar);
-        // KEY PART, SAVE TO STATE:
+      
         setInfo(starwar);
+        setName(response.data.results[0].name)
       });
   }, []);
 
@@ -27,6 +31,7 @@ const App = () => {
   return (
     <div className="App">
       <h1 className="Header">React Wars</h1>
+      <Name name={name} />
     </div>
   );
 }
