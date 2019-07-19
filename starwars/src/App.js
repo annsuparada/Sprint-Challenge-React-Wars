@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Name from "./components/Name"
 import BirthYear from "./components/BirthYear"
-import Species from "./components/Species"
-import Character from "./components/Character"
+
 import 'semantic-ui-css/semantic.min.css'
 import { Card } from 'semantic-ui-react'
 
@@ -43,15 +42,16 @@ const App = () => {
       <h1 className="Header">Starwar Character</h1>
       <Card.Group>
       {
-        info.map((item) => {
+        info.map((item,id) => {
           return (
+            
             <Card>
               <Card.Content>
               <Card.Header>
-                <Name name={item.name} />
+                <Name name={item.name} key={id} />
               </Card.Header>
               <Card.Meta>
-                <BirthYear birthYear={item.birth_year}/>
+                <BirthYear birthYear={item.birth_year} key={id}/>
               </Card.Meta>
               </Card.Content>
             
