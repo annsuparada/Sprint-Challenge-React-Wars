@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Name from "./components/Name"
+import BirthYear from "./components/BirthYear"
+import Species from "./components/Species"
+import Character from "./components/Character"
+import 'semantic-ui-css/semantic.min.css'
 
 import './App.css';
 
@@ -14,16 +18,21 @@ const App = () => {
 
   const [info, setInfo] = useState([]);
   const [name, setName] = useState('')
+  const [birthYear, setBirthYear] = useState('')
+  
+
   useEffect(() => {
     axios
-      .get(`https://swapi.co/api/people/?search=r2`)
+      .get(`https://swapi.co/api/people/`)
       .then(response => {
-        const starwar = response.data;
-
+        const starwar = response.data.results;
+        // starwar.map()
         console.log("starwar:", starwar);
       
         setInfo(starwar);
         setName(response.data.results[0].name)
+        setBirthYear(response.data.results[0].birth_year)
+        
       });
   }, []);
 
@@ -31,7 +40,9 @@ const App = () => {
   return (
     <div className="App">
       <h1 className="Header">React Wars</h1>
-      <Name name={name} />
+      {info.map(item =>  <Name name={name} />)}
+      <BirthYear birthYear={birthYear} />
+        
     </div>
   );
 }
