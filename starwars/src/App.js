@@ -1,4 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import Name from "./components/Name"
+import BirthYear from "./components/BirthYear"
+
+import 'semantic-ui-css/semantic.min.css'
+import { Card } from 'semantic-ui-react'
+
 import './App.css';
 
 const App = () => {
@@ -9,9 +16,50 @@ const App = () => {
   // side effect in a component, you want to think about which state and/or props it should
   // sync up with, if any.
 
+  const [info, setInfo] = useState([]);
+  const [name, setName] = useState('')
+  const [birthYear, setBirthYear] = useState('')
+  
+
+  useEffect(() => {
+    axios
+      .get(`https://swapi.co/api/people/`)
+      .then(response => {
+        const starwar = response.data.results;
+        
+        console.log("starwar:", starwar);
+      
+        setInfo(starwar);
+        setName(response.data.results[0].name)
+        setBirthYear(response.data.results[0].birth_year)
+        
+      });
+  }, []);
+
+
   return (
     <div className="App">
-      <h1 className="Header">React Wars</h1>
+      <h1 className="Header">Starwar Character</h1>
+      <Card.Group>
+      {
+        info.map((item,id) => {
+          return (
+            
+            <Card>
+              <Card.Content>
+              <Card.Header>
+                <Name name={item.name} key={id} />
+              </Card.Header>
+              <Card.Meta>
+                <BirthYear birthYear={item.birth_year} key={id}/>
+              </Card.Meta>
+              </Card.Content>
+            
+            </Card>
+          )
+        })
+      } 
+    </Card.Group>
     </div>
   );
 }
